@@ -10,7 +10,7 @@ class App extends Component {
     form:{
       id: '',
       personaje: '',
-      anime: ''
+      anime: '',
     }
   }
 
@@ -43,6 +43,14 @@ class App extends Component {
 
   ocultarModalInsertar = () =>{
     this.setState({modalInsertar: false})
+  }
+
+  insertar =()=>{
+    var valorNuevo={...this.state.form};
+    valorNuevo.id=this.state.data.length+1;
+    var lista =this.state.data;
+    lista.push(valorNuevo);
+    this.setState({data: lista, modalInsertar:false})
   }
   render() {
     return (
@@ -97,12 +105,12 @@ class App extends Component {
 
           <FormGroup>
             <label>Anime:</label>
-            <input className='form-control' name='anime' type="text" />
+            <input className='form-control' name='anime' type="text" onChange={this.handleChange} />
           </FormGroup>
         </ModalBody>
 
         <ModalFooter>
-          <Button color='primary'>Insertar</Button>
+          <Button color='primary' onClick={()=>this.insertar()}>Insertar</Button>
           <Button color='danger' onClick={()=>this.ocultarModalInsertar()}>Cancelar</Button>
         </ModalFooter>
 
