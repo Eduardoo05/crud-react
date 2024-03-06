@@ -7,6 +7,7 @@ class App extends Component {
   state = {
     //data: data,
     modalInsertar: false,
+    modalEditar: false,
     form:{
       id: '',
       personaje: '',
@@ -43,6 +44,14 @@ class App extends Component {
 
   ocultarModalInsertar = () =>{
     this.setState({modalInsertar: false})
+  }
+
+  mostrarModalEditar = () =>{
+    this.setState({modalEditar: true})
+  }
+
+  ocultarModalEditar = () =>{
+    this.setState({modalEditar: false})
   }
 
   insertar =()=>{
@@ -85,17 +94,17 @@ class App extends Component {
         </Table>
       </Container>
 
-      <Modal isOpen={this.state.modalInsertar}>
+      <Modal isOpen={this.state.modalEditar}>
         <ModalHeader>
           <div>
-            <h3>Insertar registro</h3>
+            <h3>Editar Registro</h3>
           </div>
         </ModalHeader>
 
         <ModalBody>
           <FormGroup>
             <label>Id:</label>
-            <input className='form-control' readOnly type="text" value={this.state.data.length+1} />
+            <input className='form-control' readOnly type="text"  />
           </FormGroup>
 
           <FormGroup>
@@ -110,8 +119,8 @@ class App extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <Button color='primary' onClick={()=>this.insertar()}>Insertar</Button>
-          <Button color='danger' onClick={()=>this.ocultarModalInsertar()}>Cancelar</Button>
+          <Button color='primary' >Editar</Button>
+          <Button color='danger' >Cancelar</Button>
         </ModalFooter>
 
       </Modal>
