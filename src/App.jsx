@@ -85,7 +85,7 @@ class App extends Component {
                 <td>{elemento.personaje}</td>
                 <td>{elemento.anime}</td>
                 <td>
-                  <Button color="primary">Editar</Button>{"  "}
+                  <Button color="primary" onClick={()=>this.mostrarModalEditar()}>Editar</Button>{"  "}
                   <Button color="danger">Eliminar</Button>
                 </td>
               </tr>
@@ -120,7 +120,7 @@ class App extends Component {
 
         <ModalFooter>
           <Button color='primary' >Editar</Button>
-          <Button color='danger' >Cancelar</Button>
+          <Button color='danger' onClick={()=>this.ocultarModalEditar()} >Cancelar</Button>
         </ModalFooter>
 
       </Modal>
