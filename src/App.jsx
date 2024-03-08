@@ -6,13 +6,13 @@ import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, Mod
 class App extends Component {
   state = {
     //data: data,
-    modalInsertar: false,
-    modalEditar: false,
     form:{
       id: '',
       personaje: '',
       anime: '',
-    }
+    },
+    modalInsertar: false,
+    modalEditar: false,
   }
 
   constructor(props) {
@@ -46,8 +46,8 @@ class App extends Component {
     this.setState({modalInsertar: false})
   }
 
-  mostrarModalEditar = () =>{
-    this.setState({modalEditar: true})
+  mostrarModalEditar = (registro) =>{
+    this.setState({modalEditar: true, form: registro})
   }
 
   ocultarModalEditar = () =>{
@@ -61,6 +61,20 @@ class App extends Component {
     lista.push(valorNuevo);
     this.setState({data: lista, modalInsertar:false})
   }
+
+  editar=(dato)=>{
+    var contador = 0
+    var lista = this.state.data
+    lista.map((registro)=>{
+      if(data.id == registro.id){
+        lista[contador].personaje = dato.personaje
+        lista[contador].anime = dato.anime
+      }
+      contador++
+    })
+    this.setState({data: lista})
+  }
+   
   render() {
     return (
       <>
@@ -85,7 +99,8 @@ class App extends Component {
                 <td>{elemento.personaje}</td>
                 <td>{elemento.anime}</td>
                 <td>
-                  <Button color="primary" onClick={()=>this.mostrarModalEditar()}>Editar</Button>{"  "}
+                  <Button color="primary" onClick={()=>this.mostrarModalEditar(elemento)}>Editar</Button>
+                  {"  "}
                   <Button color="danger">Eliminar</Button>
                 </td>
               </tr>
@@ -104,17 +119,17 @@ class App extends Component {
         <ModalBody>
           <FormGroup>
             <label>Id:</label>
-            <input className='form-control' readOnly type="text"  />
+            <input className='form-control' readOnly type="text" value={this.state.form.id} />
           </FormGroup>
 
           <FormGroup>
             <label>Personaje:</label>
-            <input className='form-control' name='personaje' type="text" onChange={this.handleChange} />
+            <input className='form-control' name='personaje' type="text" onChange={()=>this.handleChange} value={this.state.form.personaje} />
           </FormGroup>
 
           <FormGroup>
             <label>Anime:</label>
-            <input className='form-control' name='anime' type="text" onChange={this.handleChange} />
+            <input className='form-control' name='anime' type="text" onChange={()=>this.handleChange} value={this.state.form.anime} />
           </FormGroup>
         </ModalBody>
 
