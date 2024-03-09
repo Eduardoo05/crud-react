@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter } from 'reactstrap';
 
+
 class App extends Component {
   state = {
     //data: data,
@@ -13,6 +14,7 @@ class App extends Component {
     },
     modalInsertar: false,
     modalEditar: false,
+    
   }
 
   constructor(props) {
@@ -33,7 +35,7 @@ class App extends Component {
     this.setState({
       form:{
         ...this.state.form,
-        [e.target.name]: [e.target.value],
+        [e.target.name]: e.target.value,
       }
     })
   }
@@ -59,22 +61,36 @@ class App extends Component {
     valorNuevo.id=this.state.data.length+1;
     var lista =this.state.data;
     lista.push(valorNuevo);
-    this.setState({data: lista, modalInsertar:false})
+    this.setState({modalInsertar:false, data: lista})
   }
 
   editar=(dato)=>{
     var contador = 0
     var lista = this.state.data
     lista.map((registro)=>{
-      if(data.id == registro.id){
+      if(dato.id == registro.id){
         lista[contador].personaje = dato.personaje
         lista[contador].anime = dato.anime
       }
-      contador++
+      contador++;
     })
-    this.setState({data: lista})
+    this.setState({data: lista, modalEditar: false})
   }
    
+  eliminar = (dato)=>{
+    var opcion =window.confirm("Realmente desea eliminar el registro"+dato.id)
+    if(opcion){
+      var contador = 0
+      var lista = this.state.data
+      lista.map((registro)=>{
+        if(registro.id == dato.id){
+          lista.splice(contador,1)
+        }
+        contador++;
+      })
+      this.setState({data: lista})
+    }
+  }
   render() {
     return (
       <>
@@ -101,7 +117,7 @@ class App extends Component {
                 <td>
                   <Button color="primary" onClick={()=>this.mostrarModalEditar(elemento)}>Editar</Button>
                   {"  "}
-                  <Button color="danger">Eliminar</Button>
+                  <Button color="danger" onClick={()=>this.eliminar(elemento)}>Eliminar</Button>
                 </td>
               </tr>
             ))}
@@ -119,22 +135,22 @@ class App extends Component {
         <ModalBody>
           <FormGroup>
             <label>Id:</label>
-            <input className='form-control' readOnly type="text" value={this.state.form.id} />
+            <input className='form-control' readOnly type="text" value={()=>this.state.form.id} />
           </FormGroup>
 
           <FormGroup>
             <label>Personaje:</label>
-            <input className='form-control' name='personaje' type="text" onChange={()=>this.handleChange} value={this.state.form.personaje} />
+            <input className='form-control' name='personaje' type="text" onChange={()=>this.handleChange} value={()=>this.state.form.personaje} />
           </FormGroup>
 
           <FormGroup>
             <label>Anime:</label>
-            <input className='form-control' name='anime' type="text" onChange={()=>this.handleChange} value={this.state.form.anime} />
+            <input className='form-control' name='anime' type="text" onChange={()=>this.handleChange} value={()=>this.state.form.anime} />
           </FormGroup>
         </ModalBody>
 
         <ModalFooter>
-          <Button color='primary' >Editar</Button>
+          <Button color='primary' onClick={()=>this.editar(this.state.form)} >Editar</Button>
           <Button color='danger' onClick={()=>this.ocultarModalEditar()} >Cancelar</Button>
         </ModalFooter>
 
